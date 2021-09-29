@@ -3,10 +3,10 @@
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submitForm" class="form">
         <div>
-          <label for="username">id:</label>
-          <input id="username" type="text" v-model="username" />
+          <label for="email">email:</label>
+          <input id="email" type="text" v-model="email" />
           <p class="validation-text">
-            <span class="warning" v-if="!isUsernameValid && username">
+            <span class="warning" v-if="!isEmailValid && email">
               Please enter an email address
             </span>
           </p>
@@ -16,10 +16,10 @@
           <input id="password" type="text" v-model="password" />
         </div>
         <button
-          :disabled="!isUsernameValid || !password"
+          :disabled="!isEmailValid || !password"
           type="submit"
           class="btn"
-          :class="!isUsernameValid || !password ? 'disabled' : null"
+          :class="!isEmailValid || !password ? 'disabled' : null"
         >
           로그인
         </button>
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       // form value
-      username: '',
+      email: '',
       password: '',
 
       // log
@@ -44,8 +44,8 @@ export default {
     };
   },
   computed: {
-    isUsernameValid() {
-      return validateEmail(this.username);
+    isEmailValid() {
+      return validateEmail(this.email);
     },
   },
   methods: {
@@ -53,7 +53,7 @@ export default {
       try {
         // biz logic
         const userData = {
-          username: this.username,
+          email: this.email,
           password: this.password,
         };
         await this.$store.dispatch('LOGIN', userData);
@@ -61,7 +61,7 @@ export default {
         // login 인증 처리가 모두 되지 않은 상태에서 main으로 넘어가면, auth 에러 발생
 
         this.$router.push('/main');
-        // this.logMessage = `${data.user.username}님, 환영합니다!`;
+        // this.logMessage = `${data.user.email}님, 환영합니다!`;
         // this.initForm();
       } catch (error) {
         // 에러 핸들링 코드
@@ -72,7 +72,7 @@ export default {
       }
     },
     initForm() {
-      this.username = '';
+      this.email = '';
       this.password = '';
     },
   },
